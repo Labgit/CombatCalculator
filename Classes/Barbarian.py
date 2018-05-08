@@ -25,6 +25,9 @@ class Barbarian(pc.PlayerClass):
         self.setStatPriority(Types.TypeStat.Charisma, 4)
         self.setStatPriority(Types.TypeStat.Intelligence, 5)
 
+        # now that stat priorities have been reassigned, auto generate and assign ability scores
+        self.autoAssignAbilityScores()
+
     def _setProficiencyBonus(self):
 
         if self.level < 5:

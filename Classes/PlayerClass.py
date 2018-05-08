@@ -28,8 +28,8 @@ class PlayerClass:
         self.hitPoints = 0
         self.armorClass = 0
 
-        # stat map: map type stat to stat variable
-        self.statMap = {
+        # ability score by stat
+        self.abilityScoreByStat = {
             Types.TypeStat.Strength: 0,
             Types.TypeStat.Dexterity: 0,
             Types.TypeStat.Constitution: 0,
@@ -48,6 +48,7 @@ class PlayerClass:
             Types.TypeStat.Charisma: 5
         }
 
+        # stat by priority
         self.statByPriority = {
             0: Types.TypeStat.Strength,
             1: Types.TypeStat.Dexterity,
@@ -83,10 +84,25 @@ class PlayerClass:
             self.setStatPriority(nextStat, nextPriority)
 
     def getAbilityScore(self, abilityType):
-        return self.statMap[abilityType]
+        return self.abilityScoreByStat[abilityType]
 
     def setAbilityScore(self, abilityType, abilityScore):
-        self.statMap[abilityType] = abilityScore
+        self.abilityScoreByStat[abilityType] = abilityScore
+
+    def autoAssignAbilityScores(self):
+        abilityScores = []
+
+        # generate ability score for every stat
+        for x in range(len(self.abilityScoreByStat)):
+            abilityScores.append(self.generateAbilityScore())
+
+        # sort ability scores from greatest to least
+        sorted(abilityScores, key=int, reverse=True)
+
+        # for every priority, get stat and assign ability score
+        for priority in range(len(self.statByPriority)):
+            stat = self.statByPriority[priority]
+            self.abilityScoreByStat[stat] = abilityScores[priority]
 
     @staticmethod
     def generateAbilityScore():
