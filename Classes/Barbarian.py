@@ -17,6 +17,13 @@ class Barbarian(pc.PlayerClass):
         # barbarian hit die = 1d12
         self.hitDie.add(12)
 
+        # reset default stat priorities for barbarian
+        self.setStatPriority(Types.TypeStat.Strength, 0)
+        self.setStatPriority(Types.TypeStat.Constitution, 1)
+        self.setStatPriority(Types.TypeStat.Dexterity, 2)
+        self.setStatPriority(Types.TypeStat.Wisdom, 3)
+        self.setStatPriority(Types.TypeStat.Charisma, 4)
+        self.setStatPriority(Types.TypeStat.Intelligence, 5)
 
     def _setProficiencyBonus(self):
 
@@ -30,5 +37,3 @@ class Barbarian(pc.PlayerClass):
             self.proficiencyBonus += 5
         else:
             self.proficiencyBonus += 6
-
-    def _set

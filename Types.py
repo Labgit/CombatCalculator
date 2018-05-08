@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class TypeClass(Enum):
+    Unassigned = -1
     Barbarian = 0
     Bard = 1
     Cleric = 2
@@ -41,6 +42,7 @@ class TypeRace(Enum):
 
 
 class TypeStat(Enum):
+    Unassigned = -1
     Charisma = 0
     Constitution = 1
     Dexterity = 2
