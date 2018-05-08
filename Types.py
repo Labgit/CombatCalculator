@@ -17,18 +17,6 @@ class TypeClass(Enum):
     Wizard = 11
 
 
-class TypeAlignment(Enum):
-    LawfulGood = 0
-    NeutralGood = 1
-    ChaoticGood = 2
-    LawfulNeutral = 3
-    Neutral = 4
-    ChaoticNeutral = 5
-    LawfulEvil = 6
-    NeutralEvil = 7
-    ChaoticEvil = 8
-
-
 class TypeRace(Enum):
     Dwarf = 0
     Elf = 1
@@ -39,6 +27,32 @@ class TypeRace(Enum):
     HalfElf = 6
     HalfOrc = 7
     Tiefling = 8
+
+
+# only a few of the races above have subraces
+class TypeSubRace(Enum):
+    Unassigned = -1
+    HillDwarf = 0
+    MountainDwarf = 1
+    HighElf = 2
+    WoodElf = 3
+    DarkElf = 4
+    LightFoot = 5
+    Stout = 6
+    ForestGnome = 7
+    RockGnome = 8
+
+
+class TypeAlignment(Enum):
+    LawfulGood = 0
+    NeutralGood = 1
+    ChaoticGood = 2
+    LawfulNeutral = 3
+    Neutral = 4
+    ChaoticNeutral = 5
+    LawfulEvil = 6
+    NeutralEvil = 7
+    ChaoticEvil = 8
 
 
 class TypeStat(Enum):
@@ -63,4 +77,8 @@ class TypeWeapon(Enum):
     SimpleMelee = 0
     SimpleRange = 1
     MartialMelee = 2
-    MartileRange = 3
+    MartialRange = 3
+
+class TypeSense(Enum):
+    DarkVision = 0
+    BlindSight = 1
