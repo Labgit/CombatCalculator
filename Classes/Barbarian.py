@@ -28,6 +28,9 @@ class Barbarian(pc.PlayerClass):
         # now that stat priorities have been reassigned, auto generate and assign ability scores
         self.autoAssignAbilityScores()
 
+        # now that ability scores have been assigned, let's assign hit points
+        self.autoAssignHitPoints()
+
     def _setProficiencyBonus(self):
 
         if self.level < 5:

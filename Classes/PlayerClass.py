@@ -123,6 +123,19 @@ class PlayerClass:
     def calculateAbilityModifier(abilityScore):
         return int((abilityScore - 10) / 2)
 
+    # this should be done only after you've generatedAbilityScores and assigned a hit die
+    def autoAssignHitPoints(self):
+        self.hitPoints = self.generateHitPoints(self.level, self.hitDie, self.getAbilityScore(Types.TypeStat.Constitution))
+
+    @staticmethod
+    def generateHitPoints(self, level, hitDie, abilityScore):
+        points = 0
+
+        for x in range(level):
+            points += hitDie.roll() + self.calculateAbilityModifier(abilityScore)
+
+        return points
+
 
 
 
