@@ -28,8 +28,8 @@ class PlayerClass:
         self.hitPoints = 0
         self.armorClass = 0
 
-        # stat map: map type stat to stat variable
-        self.statMap = {
+        # ability score by stat
+        self.abilityScoreByStat = {
             Types.TypeStat.Strength: 0,
             Types.TypeStat.Dexterity: 0,
             Types.TypeStat.Constitution: 0,
@@ -38,17 +38,74 @@ class PlayerClass:
             Types.TypeStat.Charisma: 0
         }
 
-        # stat priority, there will be a default setting per class
-        # TODO: allow setting stat priority
-        self.statPriority = {}
+        # stat priority by stat, this will be reassigned in each class
+        self.priorityByStat = {
+            Types.TypeStat.Strength: 0,
+            Types.TypeStat.Dexterity: 1,
+            Types.TypeStat.Constitution: 2,
+            Types.TypeStat.Intelligence: 3,
+            Types.TypeStat.Wisdom: 4,
+            Types.TypeStat.Charisma: 5
+        }
 
-    def getAbilityScore(self, type):
-        return self.statMap[type]
+        # stat by priority
+        self.statByPriority = {
+            0: Types.TypeStat.Strength,
+            1: Types.TypeStat.Dexterity,
+            2: Types.TypeStat.Constitution,
+            3: Types.TypeStat.Intelligence,
+            4: Types.TypeStat.Wisdom,
+            5: Types.TypeStat.Charisma
+        }
 
-    def setAbilityScore(self, type, abilityScore):
-        self.statMap[type] = abilityScore
+    def getStatPriority(self, statType):
+        return self.priorityByStat[statType]
 
-    def generateAbilityScore(self):
+    def setStatPriority(self, statType, newPriority):
+        # get current stat priority
+        currentPriority = self.priorityByStat[statType]
+
+        # unassign stat from priority slot and reset stat priority
+        self.statByPriority[self.priorityByStat[statType]] = Types.TypeStat.Unassigned
+        self.priorityByStat[statType] = -1
+
+        # get next stat and priority to reassign recursively
+        nextStat = self.statByPriority[newPriority]
+        nextPriority = newPriority + (-1 if newPriority > currentPriority else 1)
+
+        # assign statType to priority slot
+        self.statByPriority[newPriority] = statType
+
+        # assign priority to stat
+        self.priorityByStat[statType] = newPriority
+
+        # if we need to shuffle, let's do it
+        if nextStat != -1:
+            self.setStatPriority(nextStat, nextPriority)
+
+    def getAbilityScore(self, abilityType):
+        return self.abilityScoreByStat[abilityType]
+
+    def setAbilityScore(self, abilityType, abilityScore):
+        self.abilityScoreByStat[abilityType] = abilityScore
+
+    def autoAssignAbilityScores(self):
+        abilityScores = []
+
+        # generate ability score for every stat
+        for x in range(len(self.abilityScoreByStat)):
+            abilityScores.append(self.generateAbilityScore())
+
+        # sort ability scores from greatest to least
+        sorted(abilityScores, key=int, reverse=True)
+
+        # for every priority, get stat and assign ability score
+        for priority in range(len(self.statByPriority)):
+            stat = self.statByPriority[priority]
+            self.abilityScoreByStat[stat] = abilityScores[priority]
+
+    @staticmethod
+    def generateAbilityScore():
         d = Dice.Dice()
 
         # generate four six sided die
@@ -62,5 +119,12 @@ class PlayerClass:
         # return the sum of the highest three rolls
         return sum(highest)
 
-    def getAbilityModifier(self, abilityScore):
+    @staticmethod
+    def calculateAbilityModifier(abilityScore):
         return int((abilityScore - 10) / 2)
+
+
+
+
+
+
