@@ -2,17 +2,18 @@ import Dice
 import Types
 import CharacterClass
 
+
 class Character:
 
     def __init__(self, classType, raceType, level=1):
 
-        self.name = "TestMe"
+        self.name = "Name goes here..."
         self.background = "Background info goes here..."
         self.age = 20
         self.alignment = Types.TypeAlignment.Neutral
 
         self.level = level
-        self.characterClass = CharacterClass.CharacterClass(self,classType)
+        self.characterClass = CharacterClass.CharacterClass(self, classType)
 
         # individual class will assign the HitDie
         self.hitDie = Dice.Dice()
@@ -159,8 +160,15 @@ class Character:
             self.level, self.hitDie, self.getAbilityScore(Types.TypeStat.Constitution))
 
     @staticmethod
-    def generateHitPoints(self, level, hitDie, abilityScore):
+    def generateHitPoints(self, level, hitDie, abilityScore, isNew=True):
+        """generate and return hit points. if character is new,  the first level point
+        generation will be used (12 + ability modifier of the provided ability score)."""
+
         points = 0
+
+        if isNew:
+            points += 12 + self.calculateAbilityModifer(abilityScore)
+            level -= 1
 
         for x in range(level):
             points += hitDie.roll() + self.calculateAbilityModifier(abilityScore)

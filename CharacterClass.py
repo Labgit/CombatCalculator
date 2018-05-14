@@ -9,6 +9,12 @@ class CharacterClass:
         self.character = character
         self.classType = classType
 
+        # all skills available for the chosen class
+        self.skillsAvailable = []
+
+        # skills the user has chosen that are specific to class
+        self.skillsChosen = []
+
     def applyClassTemplate(self):
         if self.classType == Types.TypeClass.Barbarian:
 
@@ -30,7 +36,28 @@ class CharacterClass:
             self.character.savings.append(Types.TypeStat.Strength)
             self.character.savings.append(Types.TypeStat.Constitution)
 
-            self.skills = []
+    def addSkill(self, skill):
+        isValid = (skill in self.skillsAvailable
+                   and skill not in self.skillsChosen
+                   and len(self.skillsChosen) < 2)
 
-            
+        if isValid:
+            self.skillsChosen.append(skill)
+
+        return isValid
+
+    def removeSkill(self, skill):
+        isValid = skill in self.skillsChosen
+
+        if isValid:
+            self.skillsChosen.remove(skill)
+
+        return isValid
+
+
+
+
+
+
+
 
